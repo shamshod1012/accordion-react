@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Question from "./components/Question";
+import data from "./data/data";
+import "./App.css";
 
 function App() {
+  const [Data, setData] = useState(data);
+  const [currentEl, setCurrentEl] = useState("");
+
+  function close(id) {
+    if (currentEl === id) {
+      setCurrentEl("");
+    } else {
+      setCurrentEl(id);
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="all_container">
+        <p className="title">questions and answers about login</p>
+        <div className="questions_container">
+          {Data.map((element) => {
+            return (
+              <Question
+                key={element.id}
+                id={element.id}
+                title={element.title}
+                info={element.id === currentEl ? element.info : ""}
+                toggle={close}
+              />
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
